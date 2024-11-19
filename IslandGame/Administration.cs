@@ -24,13 +24,10 @@ namespace IslandGame
 
         private void btnAdminConsole_Click(object sender, EventArgs e)
         {
-            DataAccess dataAccess = new DataAccess();
-            string result = dataAccess.GameLobby();
-            MessageBox.Show(result);
-
-            GameLobby gameLobby = new GameLobby();
-            this.Hide();
-            gameLobby.Show();
+            
+            this.Close();
+            GameLobby gameLobby = new GameLobby(true); 
+            gameLobby.Show(); 
         }
 
         private void button1_Click(object sender, EventArgs e)

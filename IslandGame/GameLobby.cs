@@ -12,10 +12,13 @@ namespace IslandGame
 {
     public partial class GameLobby : Form
     {
-        public GameLobby()
+        private bool _isAdmin; // To show if the user is an Admin
+        public GameLobby(bool isAdmin)
         {
             InitializeComponent();
+            _isAdmin = isAdmin;
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -34,13 +37,16 @@ namespace IslandGame
 
         private void btnAdminConsole_Click(object sender, EventArgs e)
         {
-            DataAccess dataAccess = new DataAccess();
-            string result = dataAccess.AdminConsole();
-            MessageBox.Show(result);
-
-            Administration administration = new Administration();
-            this.Hide();
-            administration.Show();
+            // Check if the admin console is accessed correctly
+            if (_isAdmin)
+            {
+                Administration administration = new Administration();
+                administration.ShowDialog(); // Show as modal dialog
+            }
+            else
+            {
+                MessageBox.Show("You do not have admin privileges.");
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -61,5 +67,41 @@ namespace IslandGame
         {
 
         }
+
+        private void GameLobby_Load(object sender, EventArgs e)
+        {
+            LoadDataIntoListBoxes();
+            btnAdminConsole.Visible = _isAdmin;
+        }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            // Start a new game by opening the Gameplay form
+            Gameplay gameplay = new Gameplay();
+            gameplay.Show();
+        }
+
+        private void LoadDataIntoListBoxes()
+        {
+            // Clear the list boxes
+            lsbPlayersOnline.Items.Clear();
+            lsbCurrentGames.Items.Clear();
+
+            // Load online players
+            DataAccessPlayer dataAccessPlayer = new DataAccessPlayer();
+            List<string> onlinePlayers = dataAccessPlayer.GetOnlinePlayers();
+            foreach (var player in onlinePlayers)
+            {
+                lsbPlayersOnline.Items.Add(player);
+            }
+
+            // Load active games
+            List<string> activeGames = dataAccessPlayer.GetActiveGames(); // Ensure this call is present
+            foreach (var game in activeGames)
+            {
+                lsbCurrentGames.Items.Add(game);
+            }
+        }
+
     }
 }

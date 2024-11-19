@@ -57,6 +57,7 @@
             this.btnNewGame.TabIndex = 2;
             this.btnNewGame.Text = "New Game";
             this.btnNewGame.UseVisualStyleBackColor = true;
+            this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
             // 
             // btnLogout
             // 
@@ -141,6 +142,7 @@
             this.Controls.Add(this.btnJoinGame);
             this.Name = "GameLobby";
             this.Text = "Game Lobby";
+            this.Load += new System.EventHandler(this.GameLobby_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

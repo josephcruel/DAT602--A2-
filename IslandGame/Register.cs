@@ -27,8 +27,8 @@ namespace IslandGame
 
         private void Register_Load(object sender, EventArgs e)
         {
-            DataAccess dataAccess = new DataAccess();
-            string result = dataAccess.RegisterConnection();
+            DataAccessRegister dataAccessRegister = new DataAccessRegister();
+            string result = dataAccessRegister.RegisterConnection();
             MessageBox.Show(result);
         }
 
@@ -47,9 +47,9 @@ namespace IslandGame
             }
 
             // Access the database to register the user
-            DataAccess dataAccess = new DataAccess();
+            DataAccessRegister dataAccessRegister = new DataAccessRegister();
 
-            string result = dataAccess.RegisterUser(lcEmail, lcName, lcPassword);
+            string result = dataAccessRegister.RegisterUser(lcEmail, lcName, lcPassword);
 
             // Check the result of the registration
             if (result == "ADDED USER NAME")

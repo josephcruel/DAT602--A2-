@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace IslandGame
 {
@@ -40,31 +32,45 @@ namespace IslandGame
             }
 
             // Access the database
-            DataAccess islandgamedb = new DataAccess();
+            DataAccessLogin islandgamedb = new DataAccessLogin();
 
             // Call the Login method to validate the user
             string loginResult = islandgamedb.Login(lcName, lcPassword);
 
             // Check the result of the login
-            if (loginResult == "Logged In")
+            if (loginResult == "Logged In as Admin")
             {
-                // Show the result
-                MessageBox.Show(loginResult);
-                // If login is successful, show the GameLobby
-                GameLobby gameLobby = new GameLobby();
+                // Admin login successful, show the admin GameLobby
+                MessageBox.Show("Admin login successful");
+                GameLobby gameLobby = new GameLobby(true); // Pass 'true' for admin user
+                this.Hide();
+                gameLobby.Show();
+            }
+            else if (loginResult == "Logged In")
+            {
+                // Regular user login successful
+                MessageBox.Show("User login successful");
+                GameLobby gameLobby = new GameLobby(false); // Pass 'false' for regular user
                 this.Hide();
                 gameLobby.Show();
             }
             else
             {
-                // If login fails, show the error message 
+                // If login fails, show the error message
                 MessageBox.Show(loginResult);
             }
         }
-    
+
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            DataAccessLogin dataAccessLogin = new DataAccessLogin();
+            string result = dataAccessLogin.LoginConnection();
+            MessageBox.Show(result);
         }
     }
 }
